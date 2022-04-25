@@ -1,0 +1,3 @@
+class SampleProduct < ApplicationRecord
+
+end
