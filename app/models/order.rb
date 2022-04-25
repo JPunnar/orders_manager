@@ -3,11 +3,13 @@
 class Order < ApplicationRecord
   VALID_STATUS = 'PAID'
 
+  has_many :products
+
   def as_json options={}
     {
       amount: { discount: discount, paid: paid, returns: returns, total: total },
       id: id,
-      products: [],
+      products: products,
       status: status
     }
   end

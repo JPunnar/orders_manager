@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_25_155252) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_25_160905) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_25_155252) do
     t.decimal "total", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
+    t.string "product_id"
+    t.integer "quantity"
+    t.json "replaced_with"
+    t.string "order_id"
   end
 
   create_table "sample_products", force: :cascade do |t|
