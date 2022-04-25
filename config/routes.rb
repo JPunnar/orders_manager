@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/404', to: 'errors#not_found'
 
   scope path: '/api' do
-    resources :orders
+    resources :orders, only: [:create, :show, :update]
     get '/products', to: 'sample_products#index'
   end
 end
