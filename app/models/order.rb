@@ -13,4 +13,8 @@ class Order < ApplicationRecord
       status: status
     }
   end
+
+  def total
+    products.sum { |p| p.quantity * p.price }
+  end
 end
