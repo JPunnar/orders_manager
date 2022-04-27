@@ -8,10 +8,12 @@ class ProductsController < ApplicationController
 
   def create
     begin
-      SampleProduct.find(params[:_json]).each do |sample_product|
+      raise ArgumentError if @order.paid?
+      SampleProduct.where(id: params[:_json]).each do |sample_product|
         product_in_cart = @order.products.find_by(product_id: sample_product.id)
         if product_in_cart.present?
-          product_in_cart.increment!(:quantity)
+          product_in_cart.increment(:quantity)
+          product_in_cart.save
         else
           Product.create(
             name: sample_product.name,
@@ -23,7 +25,7 @@ class ProductsController < ApplicationController
         end
       end
       response = 'OK'
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound, ArgumentError
       response = 'Invalid parameters'
     end
 
@@ -43,7 +45,7 @@ class ProductsController < ApplicationController
         product_id: sample_product.id,
         quantity: params[:replaced_with][:quantity]
       )
-      product.update(replaced_with: replacement_product)
+      product.replace_product(replacement_product)
       response = "OK"
     else
       response = 'Invalid parameters'

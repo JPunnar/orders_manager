@@ -11,7 +11,8 @@ class OrdersController < ApplicationController
 
   def update
     if order_params['status'] == Order::PAID_STATUS
-      Order.find(params[:id]).update(status: order_params['status'])
+      order = Order.find(params[:id])
+      order.update(status: Order::PAID_STATUS, paid: order.total)
       response = 'OK'.to_json
     else
       response = "Invalid order status".to_json
