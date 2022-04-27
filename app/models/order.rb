@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
-  VALID_STATUS = 'PAID'
+  PAID_STATUS = 'PAID'
 
   has_many :products
 
@@ -16,5 +16,9 @@ class Order < ApplicationRecord
 
   def total
     products.sum { |p| p.quantity * p.price }
+  end
+
+  def paid?
+    status == PAID_STATUS
   end
 end
