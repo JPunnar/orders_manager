@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   scope path: '/api' do
     resources :orders, only: [:create, :show, :update] do
-      resources :products, only: [:index, :create]
+      resources :products, only: [:index, :create, :update]
     end
     get '/products', to: 'sample_products#index'
   end
